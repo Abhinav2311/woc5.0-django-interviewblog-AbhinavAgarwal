@@ -1,0 +1,100 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Experience Blog App</title>
+</head>
+<style>
+    body {
+        background-color: rgb(53, 52, 52);
+    }
+
+    .cont {
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        /* border: 2px solid black; */
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    .box {
+        background-color: black;
+        color: white;
+        width: 480px;
+        height: 300px;
+        border: 2px solid black;
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        border-radius: 20px;
+    }
+
+    #img1 {
+        width: 90px;
+        height: 60px;
+        filter: invert(100%);
+    }
+
+    #head {
+        font-size: 1.8rem;
+    }
+
+    .btn1 {
+        width: 300px;
+        height: 32px;
+        cursor: pointer;
+        color: white;
+        border-radius: 7px;
+        font-size: 16px;
+        
+    }
+    #login{
+        margin-top: 20px;
+        background-color: rgb(50, 50, 248);
+    }
+    #login:hover{
+        background-color:darkblue;
+    }
+    #register{
+        margin-top: 5px;
+        margin-bottom: 10px;
+        background-color: red;
+        color: white ;
+    }
+    #register:hover{
+        background-color: darkred;
+    }
+    .box a{
+        text-decoration: none;
+        color: white;
+        display:inline-block;
+        padding: 0px 90px;
+    }
+</style>
+
+<body>
+    <div class="cont">
+        <div class="box">
+            <h1 id="head">DAIICT-Interview Experiences</h1>
+            <img id="img1" src="{% static 'images/img1.jpg' %}">
+            <button id="login" class="btn1">
+                <a href="{% url 'login' %}">Login</a>
+            </button>
+            <button id="register" class="btn1">
+               <a href="{% url 'register' %}"> Register</a>
+            </button>
+        </div>
+    </div>
+</body>
+
+</html>

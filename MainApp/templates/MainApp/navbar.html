@@ -1,0 +1,36 @@
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark" style="background-color: black;">
+    <div class="container-fluid">
+        <a class="navbar-brand btn-success" href="{% url 'Home' %}"
+            style="padding-left: 5px; padding-top: 6px; padding-right: 5px; border-radius: 8px; font-family:Georgia, 'Times New Roman', Times, serif;font-size: 17px;">BLOGAPP</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="font-size: 16px;">
+                <li class="nav-item mx-1 {% block homeactive %} {% endblock homeactive %}">
+                    <a class="nav-link" aria-current="page" href="{% url 'Home' %}">Home</a>
+                </li>
+                <li class="nav-item mx-1 {% block newactive %} {% endblock newactive %}">
+                    <a class="nav-link" href="{% url 'Bookmarks' %}">Add New Experience +</a>
+                </li>
+                <li class="nav-item mx-1 {% block expactive %} {% endblock expactive %}">
+                    <a class="nav-link" href="{% url 'Bookmarks' %}">My Experiences</a>
+                </li>
+                <li class="nav-item mx-1 {% block bookactive %} {% endblock bookactive %}">
+                    <a class="nav-link" href="{% url 'Bookmarks' %}">Bookmarks</a>
+                </li>
+            </ul>
+            <h6 style="color: white; margin-right:15px; margin-top: 7px; font-weight: lighter; font-size: larger;">
+                Welcome <strong>{{request.user.email}}</strong> !!</h6>
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            <form action="{% url 'logout' %}">
+                <button class="btn btn-success mx-2" type="submit">Logout</button>
+            </form>
+            <!-- <h5>Welcome </h5> {{request.user}} -->
+        </div>
+    </div>
+</nav>
