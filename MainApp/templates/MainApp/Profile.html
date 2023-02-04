@@ -1,7 +1,146 @@
 {% extends 'MainApp/main.html' %}
+{% load static %}
+
+{% block title %}{{user.username}}{% endblock title %}
+
+{% block style %}
+<!-- .profile-pic{
+    max-width: 200px;
+    max-height:200px;
+    margin: 0 auto;
+    border-radius: 50%;
+} -->
+.card-body{
+    background-color:#19456B;
+}
+.card{
+    border-radius:15px;
+    <!-- text-align:center;  -->
+    
+}
+.card img {
+    max-width: 300px;
+    max-height:300px;
+    width: 80%;
+    height:80%;
+    border:1px solid white;
+    <!-- border-radius: 50%; -->
+    margin: 0 auto;
+    <!-- box-shadow: 0 5px 10px white; -->
+  }
+#profile_img{
+    align-items:center;
+    justify-content:center;
+}
+
+.form_input{
+    font-size:20px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.form_input2 * {
+    vertical-align: top;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+.form_input3{
+    width:478px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.btnfont{
+    font-family: 'Montserrat', sans-serif;
+    background-color: #05b67b;
+    color:white;
+    border-color:#05b67b;
+}
+.btnfont:hover{
+    background-color: #079d6b;
+    color:white;
+    border-color:#079d6b;
+}
+
+{% endblock style %}
 
 {% block content %}
 
-<h1>This is Profile page.</h1>
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
 
+<!-- <h2>User Profile</h2> -->
+
+
+
+<br>
+<div class="row mx-5 mt-3">
+	<div class="col-md-3">
+		<div class="card card-body" id="profile_img">
+			<!-- <a class="btn btn-warning" href="{% url 'Home' %}"> &#8592; Back to Profile</a> -->
+			<img class="card-img-top mt-4" src="{{user.profile.profile_pic.url}}" alt="">
+            <!-- <p style="color: black;">{{request.user.profile.degree}}</p> -->
+            <hr class="my-1">
+			<h3 style="text-align: center; font-size:23px;font-family: 'Montserrat', sans-serif;" class="mb-1">{{user.username}}</h3>
+		
+		</div>
+	</div>
+	<div class="col-md-9">
+        <div class="card card-body" style="padding: 32px;">
+			
+			<form>
+                <label for="name" class="form_input">Name: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                <input type="text" name="name"value="{{user.first_name}} {{user.last_name}}" class="form_input3" disabled>
+                <br>
+                <br>
+                <label for="email" class="form_input">Email: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                <input type="email" name="email"value="{{user.email}}" class="form_input3" disabled>
+				{% csrf_token %}
+				{% comment %} {{form.as_p}} {% endcomment %}
+		
+			<!-- <input class="btn btn-primary" type="submit" name="Update Information"> -->
+			</form>
+		</div>
+		<div class="card card-body" style="padding-left: 32px;">
+			
+			<form method="POST" action="" enctype="multipart/form-data">
+				{% csrf_token %}
+                <div class="form_input2">
+                    <label for="bio" class="form_input">Bio: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    {{form.bio}}
+                </div>
+                <br>
+                <div class="form_input2">
+                    <label for="degree" class="form_input">Degree: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    {{form.degree}}
+                </div>
+                <br>
+                <div class="form_input2">
+                    <label for="program" class="form_input">Program: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    {{form.program}}
+                </div>
+                <br>
+                <div class="form_input2">
+                    <label for="graduation" class="form_input">Graduation Year: &nbsp;&nbsp;</label>
+                    {{form.graduation}}
+                </div>
+                <br>
+                <div class="form_input2">
+                    <label for="profic_pc" class="form_input">Profile Picture: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    {{form.profile_pic}}
+                </div>
+                <br>
+                
+                <!-- {{form.profile_pic.label_tag}} -->
+                
+		
+			<input class="btn btn-outline-warning btnfont" type="submit" name="Update Information" value="Update Profile" style="margin-left: 350px;">
+			</form>
+		</div>
+	</div>
+</div>
 {% endblock %}

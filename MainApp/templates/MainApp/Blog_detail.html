@@ -1,0 +1,216 @@
+{% extends 'MainApp/main.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block style %}
+
+.card{
+background-color: whitesmoke; <!-- Optional : EFFFFB -->
+padding:5px 15px;
+border-radius:20px;
+margin-bottom:28px;
+color: black;
+}
+
+.homebody{
+margin-top:55px;
+margin-bottom: 25px;
+<!-- border:2px solid red; -->
+
+}
+
+h1 {
+font-family: 'Cinzel', serif;
+}
+
+h6 {
+font-family: 'Montserrat', sans-serif;
+}
+
+p {
+font-family: 'Montserrat', sans-serif;
+}
+
+h3 {
+font-family: 'Merriweather', serif;
+font-weight: bold;
+font-size: 28px;
+}
+
+.card-subtitle {
+color: rgb(59, 133, 49);
+}
+.card-title {
+color: #19456B;
+font-weight:bold;
+font-size: 1.7rem;
+}
+
+.hr-break {
+color: #93C6E7;
+border-width: 16px 0 0;
+<!-- width: 5%; -->
+margin: 0 auto;
+}
+
+.container{
+padding:18px 25px;
+margin-top: 45px;
+display: inline;
+border: 2px solid ;
+width: 910px;
+border-radius:20px;
+}
+
+.ReFrBo{
+color: white;
+background-color: darkorange;
+font-family: 'Montserrat', sans-serif;
+}
+
+.ReFrBo:hover{
+color: whitesmoke;
+background-color: orange;
+}
+
+#com{
+width:100%
+}
+
+#subbtn{
+padding: 3px 8px;
+}
+
+.coms{
+margin-bottom: 20px;
+border: 1px solid whitesmoke;
+padding-top:4px;
+padding-bottom:4px;
+box-shadow: 2px 2px gray;
+background-color: #19456B; <!--; 222831-->
+<!-- #125a98 -->
+
+}
+
+.timsiz{
+font-size:14px;
+}
+
+.comment_section {
+background-color: #125a98;
+}
+
+.comment_sec {
+font-family: 'Montserrat', sans-serif;
+}
+
+.form-label {
+padding: 3px 0 5px;
+font-size: 22px;
+}
+
+
+.com_text::placeholder{
+font-family: 'Montserrat', sans-serif;
+}
+
+.coms {
+font-family: 'Montserrat', sans-serif;
+font-size: 1rem;
+padding: 15px 0 15px;
+width:98%;
+border-radius:15px;
+}
+
+.forflex{
+display:flex;
+flex-direction:column;
+justify-content: center;
+align-items: center;
+}
+
+{% endblock style%}
+
+{% block content %}
+
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+
+<!-- <h1>This is home page</h1> -->
+
+<div class="homebody">
+    <div class="d-flex flex-column justify-content-center align-items-center bd-highlight">
+        <div class="card" style="width: 57rem;">
+            <div class="card-body">
+                <h1 class="card-title" style="font-weight:bolder; font-size: 1.9rem;">{{post.title}}</h1>
+                <h6 class="card-subtitle mb-2 text">By {{post.author.first_name}}
+                    {{post.author.last_name}}, {{post.author.profile.degree|default_if_none:""}}
+                    {{post.author.profile.program|default_if_none:""}}</h6>
+                <h6 class="card-subtitle mb-2 text">{{post.company}} -
+                    {{post.offer_type}} ({{post.year}})</h6>
+                <h6 class="card-subtitle mb-2 text">Profile: {{post.job_profile}}</h6>
+                <h6 class="card-subtitle mb-2 text" style="text-align: end;"><strong>Last Updated:</strong>
+                    {{post.updated_at}}</h6>
+                <hr class="hr-break">
+                <p class="card-text">{{post.content|safe}}</p>
+                <div class="text-end">
+                    {% if books %}
+                    <a href="{% url 'Bookmarks_add' post.sno %}"
+                        class="btn btn-outline-warning bi bi-bookmark-star btn-sm ReFrBo">Remove from Bookmarks &#160;
+                        <i class="fa-solid fa-bookmark"></i>
+                    </a>
+
+                    {% else %}
+                    <a href="{% url 'Bookmarks_add' post.sno %}"
+                        class="btn btn-outline-warning bi bi-bookmark-star btn-sm ReFrBo">Bookmark &#160;<i
+                            class="fa-solid fa-bookmark"></i>
+
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Comments -->
+        <div class="container comment_section">
+            <h3>Comments ({{comments.count}})</h3>
+            <form action="/postComment" method="post">
+                {% csrf_token %}
+
+                <div class="mb-3 comment_sec">
+                    <label for="comment" class="form-label">Drop your comments here!</label>
+                    <br>
+                    <!-- <input type="text" placeholder="Enter comment here" id="com"> -->
+                    <textarea name="comment" id="" cols="94" rows="3" placeholder="Add Comment" id="com"
+                        class="com_text"></textarea>
+                </div>
+                <input type="hidden" name="postSno" value="{{post.sno}}">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button type="submit" class="btn btn-outline-light me-md-2" type="button">Comment &#160;<i
+                            class="fa-solid fa-pen-to-square"></i></button>
+                </div>
+                <!-- <button type="submit" class="btn btn-outline-light justify-content-md-end" id="subbtn">Comment &#160;<i class="fa-solid fa-pen-to-square"></i></button> -->
+            </form>
+            <br>
+            <div class="forflex">
+                {% for comment in comments %}
+                <div class="row coms">
+                    <div class="col-md-12 "><strong>{{comment.user.first_name}} {{comment.user.last_name}}</strong>
+                        &bullet;
+                        <span class="timsiz">{{comment.timeStamp | naturaltime}}</span>
+                        <div>{{comment.comment}}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+    {% endblock %}

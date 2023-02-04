@@ -1,0 +1,112 @@
+{% extends 'MainApp/main.html' %}
+{% load static %}
+
+{% block homeactive %} active {% endblock homeactive %}
+
+
+{% block style %}
+
+.card{
+background-color: whitesmoke; <!-- Optional : EFFFFB -->
+padding:5px 15px;
+border-radius:20px;
+margin-bottom:28px;
+color: black;
+}
+
+.homebody{
+margin-top:55px;
+margin-bottom: 25px;
+<!-- border:2px solid red; -->
+}
+
+h1 {
+font-family: 'Cinzel', serif;
+}
+
+h6 {
+font-family: 'Montserrat', sans-serif;
+}
+
+p {
+font-family: 'Montserrat', sans-serif;
+}
+
+.card-subtitle {
+color: rgb(59, 133, 49);
+}
+.card-title {
+color: #19456B;
+font-weight:bold;
+font-size: 1.7rem;
+}
+
+.hr-break {
+color: #93C6E7;
+border-width: 16px 0 0;
+<!-- width: 5%; -->
+margin: 0 auto;
+}
+.ReMo{
+color: white;
+border-color: #19456B;
+background-color:#19456B;
+font-family: 'Montserrat', sans-serif;
+}
+
+.ReMo:hover {
+background-color: #11698E;
+color:whitesmoke ;
+border-color: #19456B;
+}
+
+{% endblock style%}
+
+{% block content %}
+
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+
+{% comment %} {% if results|length < 1 %} {% endcomment %} <!-- <h3>No search results found! Try different keyword.</h3>
+    -->
+    {% comment %} {% endif %} {% endcomment %}
+
+    <!-- <h1>This is home page</h1> -->
+
+    <div class="homebody">
+        {% for post in results %}
+        <div class="d-flex flex-column justify-content-center align-items-center bd-highlight">
+            <div class="card" style="width: 50rem;">
+                <div class="card-body">
+                    <h1 class="card-title" style="font-weight:bolder; font-size: 1.9rem;">{{post.title}}</h1>
+                    <h6 class="card-subtitle mb-2 text">By {{post.author.first_name}}
+                        {{post.author.last_name}}, {{post.author.profile.degree|default_if_none:""}}
+                        {{post.author.profile.program|default_if_none:""}}</h6>
+                    <h6 class="card-subtitle mb-2 text">{{post.company}} -
+                        {{post.offer_type}} ({{post.year}})</h6>
+                    <h6 class="card-subtitle mb-2 text">Profile: {{post.job_profile}}</h6>
+                    <h6 class="card-subtitle mb-2 text" style="text-align: end;"><strong>Last Updated:</strong>
+                        {{post.updated_at}}</h6>
+                    <hr class="hr-break">
+                    <p class="card-text">{{post.content|safe|slice:":550"}}</p>
+                    <div class="text-end">
+                        <a href="{{post.get_absolute_url}}"
+                            class="btn btn-outline-info bi bi-card-text btn-sm ReMo">Read More &nbsp;<i
+                                class="fa-sharp fa-solid fa-book-open"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        {% endfor %}
+    </div>
+
+
+    {% endblock %}

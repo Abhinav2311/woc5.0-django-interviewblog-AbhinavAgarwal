@@ -40,7 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'MainApp',
+    'ckeditor',
+    'crispy_forms',
+    'django.contrib.humanize',
 ]
+
+CRISPY_TEMPLATE_PACK = 'uni_form'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -108,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -122,11 +127,49 @@ STATIC_URL = '/static/'
 
 MEDIA_URL = '/images/'
 
-STATIcFILES_DIRS = [
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
+
+STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#SMTP Configuration
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'blogapptester@gmail.com'
+EMAIL_HOST_PASSWORD = 'inchfphbsvptjqpt'
+
+
+CKEDITOR_CONFIGS = {
+   'default': {
+        # 'uiColor':'#1F0A40',
+        # 'skin':'moono',
+        # 'contentsCss':'body{background-color:rgba(22, 22, 28, 0.792); color:white;font-size:17px;}',
+        'contentsCss':'body{font-size:17px; font-family:"Montserrat", sans-serif;}',
+       'toolbar_Full': [
+            ['Styles', 'Format', 'Bold', 'Italic', 'Underline', 'Strike','NumberedList','BulletedList', 'Undo', 'Redo'],
+            ['Link', 'Unlink', 'Anchor'],
+            ['Image', 'Flash', 'Table', 'HorizontalRule'],
+            ['TextColor', 'BGColor'],
+            ['Smiley', 'SpecialChar'],
+            ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
+        ],
+        'extraPlugins': 'justify,liststyle,indent',
+        'height':240,
+        'width':888,
+        'extraPlugins': ','.join(['placeholder']),
+        'editorplaceholder': 'Describe Your Interview Experience',
+    
+
+   },
+}

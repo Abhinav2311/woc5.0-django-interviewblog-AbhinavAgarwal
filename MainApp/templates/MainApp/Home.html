@@ -1,19 +1,243 @@
 {% extends 'MainApp/main.html' %}
 {% load static %}
 
-{% block homeactive %} active {% endblock homeactive %} 
+{% block homeactive %} active {% endblock homeactive %}
+
+
+{% block style %}
+
+.btn_end {
+background: #19456B;
+background-image: -webkit-linear-gradient(top, #19456B, #11698E);
+background-image: -moz-linear-gradient(top, #19456B, #11698E);
+background-image: -ms-linear-gradient(top, #19456B, #11698E);
+background-image: -o-linear-gradient(top, #19456B, #11698E);
+background-image: linear-gradient(to bottom, #19456B, #11698E);
+-webkit-border-radius: 8;
+-moz-border-radius: 8;
+border-radius: 8px;
+font-family: Georgia;
+color: whitesmoke;
+font-size: 13px;
+padding: 7px 10px 7px 10px;
+text-decoration: none;
+}
+
+.btn_end:hover {
+background: #11698E;
+background-image: -webkit-linear-gradient(top, #11698E, #19456B);
+background-image: -moz-linear-gradient(top, #11698E, #19456B);
+background-image: -ms-linear-gradient(top, #11698E, #19456B);
+background-image: -o-linear-gradient(top, #11698E, #19456B);
+background-image: linear-gradient(to bottom, #11698E, #19456B);
+text-decoration: none;
+}
+
+h1 {
+font-family: 'Cinzel', serif;
+}
+
+h6 {
+font-family: 'Montserrat', sans-serif;
+}
+
+p {
+font-family: 'Montserrat', sans-serif;
+}
+
+.card{
+background-color: whitesmoke; <!-- Optional : EFFFFB -->
+padding:5px 15px;
+border-radius:20px;
+margin-bottom:28px;
+}
+
+.homebody{
+margin:55px 0 25px;
+<!-- border:2px solid red; -->
+}
+
+.card-body {
+color: black;
+}
+
+.card-title {
+color: #19456B;
+font-weight:bold;
+font-size: 1.7rem;
+}
+
+
+.hr-break {
+color: #93C6E7;
+border-width: 16px 0 0;
+<!-- width: 5%; -->
+margin: 0 auto;
+}
+
+.pagtext{
+text-decoration: None;
+color: whitesmoke;
+}
+
+.pagtext:hover {
+color: whitesmoke;
+}
+
+.page-link {
+color: black;
+}
+
+.page-link:hover {
+color: whitesmoke;
+background-color: #19456B;
+}
+
+.card-subtitle {
+color: rgb(59, 133, 49);
+
+}
+
+{% comment %} .ReMo:hover {
+background-color: #19456B;
+} {% endcomment %}
+
+.ReMo{
+color: white;
+border-color: #19456B;
+background-color:#19456B;
+font-family: 'Montserrat', sans-serif;
+}
+
+.ReMo:hover {
+background-color: #11698E;
+color:whitesmoke ;
+border-color: #19456B;
+}
+
+{% endblock style%}
 
 {% block content %}
 
 {% if messages %}
 {% for message in messages %}
 <div class="alert alert-success alert-dismissible fade show" role="alert">
-    {{ message }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  {{ message }}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 {% endfor %}
 {% endif %}
 
-<h1>This is home page</h1>
+<!-- <h1>This is home page</h1> -->
+
+<div class="homebody">
+  {% for post in post_list %}
+  <div class="d-flex flex-column justify-content-center align-items-center bd-highlight">
+    <div class="card" style="width: 50rem;">
+      <div class="card-body">
+        {% comment %} <h1 class="card-title">Interview Experience of {{post.author.first_name}}
+          {{post.author.last_name}}, {{post.job_profile}} at {{post.company}}</h1> {% endcomment %}
+        <h1 class="card-title" style="font-weight:700; font-size: 1.9rem;">{{post.title}}</h1>
+        <h6 class="card-subtitle mb-2 text_name">By {{post.author.first_name}} {{post.author.last_name}},
+          {{post.author.profile.degree|default_if_none:""}} {{post.author.profile.program|default_if_none:""}}</h6>
+        {% comment %} <h6 class="card-subtitle mb-2 text">Degree: {{post.author.profile.degree|default_if_none:""}}
+          {{post.author.profile.program|default_if_none:""}}</h6> {% endcomment %}
+        <h6 class="card-subtitle mb-2 text">{{post.company}} - {{post.offer_type}} ({{post.year}})</h6>
+        <h6 class="card-subtitle mb-2 text_profile">Profile: {{post.job_profile}}</h6>
+        <h6 class="card-subtitle mb-2 text_update" style="text-align: end;"><strong>Last Updated:</strong>
+          {{post.updated_at}}</h6>
+        <hr class="hr-break">
+        <p class="card-text">{{post.content|safe|slice:":550"}}</p>
+        <div class="text-end">
+          <!-- <a href="{% url 'blog_detail' post.slug %}" class="btn btn-outline-info bi bi-card-text btn-sm" >Read More &nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-text" viewBox="0 0 16 16">
+                        <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                        <path d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8zm0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z"/>
+                      </svg></a> -->
+          {% comment %} <a href="{{post.get_absolute_url}}" class="btn btn-outline-dark ReMo bi bi-card-text btn-sm"> {%endcomment %}
+            <a href="{{post.get_absolute_url}}" class="btn ReMo bi bi-card-text btn-sm">Read More &nbsp;<i
+                class="fa-sharp fa-solid fa-book-open"></i>
+              <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-text" viewBox="0 0 16 16">
+                        <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                        <path d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8zm0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z"/>
+                      </svg> -->
+            </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  {% endfor %}
+</div>
+<!-- pagination -->
+<!-- {% if post_list.has_other_pages %}
+  <nav aria-label="Page navigation conatiner"></nav>
+  <ul class="pagination justify-content-center">
+    {% if post_list.has_previous %}
+    <li class="btn_end"><a href="?page={{ post_list.previous_page_number }}" class="pagtext">&lt;&lt; Prev </a></li>
+    {% endif %}
+    <span class="page_footer">&nbsp; Page {{post_list.number}} of {{post_list.paginator.num_pages}} &nbsp; </span>
+    {% if post_list.has_next %}
+    <li class="btn_end"><a href="?page={{ post_list.next_page_number }}" class="pagtext">Next &gt;&gt;</a></li>
+   {% endif %}
+  </ul>
+  </nav>
+</div>
+{% endif %} -->
+<!-- pagination end-->
+{% if post_list.has_other_pages %}
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    {% if post_list.has_previous and post_list.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ post_list.previous_page_number }}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" href="#">Page {{post_list.number}} of {{post_list.paginator.num_pages}}</a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" href="?page={{ post_list.next_page_number }}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+    {% elif post_list.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ post_list.previous_page_number }}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#">Page {{post_list.number}} of
+        {{post_list.paginator.num_pages}}</a></li>
+    <li class="page-item disabled">
+      <a class="page-link" href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <a class="page-link" href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#">Page {{post_list.number}} of
+        {{post_list.paginator.num_pages}}</a></li>
+    <li class="page-item">
+      <a class="page-link" href="?page={{ post_list.next_page_number }}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+    {% endif %}
+    <!-- <li class="page-item"><a class="page-link" href="#">Page {{post_list.number}} of {{post_list.paginator.num_pages}}</a></li>
+      {% if post_list.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ post_list.next_page_number }}" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+      {% endif %} -->
+  </ul>
+</nav>
+{% endif %}
 
 {% endblock %}
